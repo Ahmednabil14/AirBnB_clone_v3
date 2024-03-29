@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ app """
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -13,6 +13,14 @@ app.register_blueprint(app_views)
 def teardown_appcontext(exception):
     """removes current sqlalchemy session"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """handeling not found page (error 404)"""
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
 
 
 if __name__ == "__main__":
