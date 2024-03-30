@@ -15,12 +15,12 @@ def states():
         states = storage.all("State").values()
         return jsonify(list(map(lambda x: x.to_dict(), states)))
     else:  # POST
-        stated = request.get_json()
-        if stated is None:
-            return "Not a JSON", 400
-        if stated.get('name') is None:
-            return "Missing name", 400
-        state = State(**stated)
+        kwargs = request.get_json()
+        if kwargs is None:
+            abort(400, "Not a JSON")
+        if kwargs.get('name') is None:
+            abort(400, "Missing name")
+        state = State(**kwargs)
         state.save()
         return state.to_dict(), 201
 
@@ -40,11 +40,11 @@ def state(state_id):
         storage.save()
         return {}, 200
     else:  # PUT
-        stated = request.get_json()
-        if stated is None:
-            return "Not a JSON", 400
-        for key in stated:
+        kwargs = request.get_json()
+        if kwargs is None:
+            abort(400, "Not a JSON")
+        for key in kwargs:
             if key not in ('id', 'created_at', 'updated_at'):
-                setattr(state, key, stated.get(key))
+                setattr(state, key, kwargs.get(key))
         storage.save()
         return state.to_dict(), 200
