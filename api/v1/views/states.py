@@ -22,7 +22,7 @@ def states():
             abort(400, "Missing name")
         state = State(**kwargs)
         state.save()
-        return state.to_dict(), 201
+        return jsonify(state.to_dict()), 201
 
 
 @app_views.route("/states/<uuid:state_id>",
@@ -38,7 +38,7 @@ def state(state_id):
     elif request.method == 'DELETE':
         state.delete()
         storage.save()
-        return {}, 200
+        return jsonify({})
     else:  # PUT
         kwargs = request.get_json()
         if kwargs is None:
@@ -47,4 +47,4 @@ def state(state_id):
             if key not in ('id', 'created_at', 'updated_at'):
                 setattr(state, key, kwargs.get(key))
         storage.save()
-        return state.to_dict(), 200
+        return jsonify(state.to_dict())
