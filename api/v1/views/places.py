@@ -30,8 +30,7 @@ def places(city_id):
             abort(404)
         if kwargs.get('name') is None:
             abort(400, "Missing name")
-        place = Place(**kwargs)
-        city.places.append(place)
+        place = Place(city_id=city_id, **kwargs)
         storage.save()
         return jsonify(place.to_dict()), 201
 
