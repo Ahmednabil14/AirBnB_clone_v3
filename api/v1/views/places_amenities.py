@@ -15,7 +15,7 @@ def place_amenities(place_id):
         abort(404)
     if storage_t == 'db':
         amenities = place.amenities
-    else
+    else:
         amenities = [storage.get('Amenity', f'{id}') for id in place.amenity_ids]
     return jsonify(amenities)
 
@@ -47,7 +47,7 @@ def place_amenity(place_id, amenity_id):
     else:
         if amenity.id not in place.amenity_ids:
             abort(404)
-        if request.method = 'DELETE':
+        if request.method == 'DELETE':
             storage.delete(amenity)
             # del place.amenity_ids[amenity.id]
             storage.save()
