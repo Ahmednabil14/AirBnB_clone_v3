@@ -37,7 +37,7 @@ def city(city_id):
 
 
 @app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
-def delete(city_id):
+def delete_city(city_id):
     """delete city object"""
     city = storage.get(City, city_id)
     response = jsonify({})
@@ -53,7 +53,7 @@ def delete(city_id):
 @app_views.route(
     "/states/<state_id>/cities",
     methods=["POST"], strict_slashes=False)
-def post(state_id):
+def post_city(state_id):
     """create a new city"""
     data = request.get_json(force=True, silent=True)
     state = storage.get(State, state_id)
@@ -70,7 +70,7 @@ def post(state_id):
 
 
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
-def put(city_id):
+def put_city(city_id):
     """update object"""
     data = request.get_json(force=True, silent=True)
     city = storage.get(City, city_id)

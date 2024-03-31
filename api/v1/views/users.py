@@ -26,7 +26,7 @@ def user(user_id):
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["DELETE"])
-def dalete(user_id):
+def delete_user(user_id):
     """delete"""
     user = storage.get(User, user_id)
     if user:
@@ -38,7 +38,7 @@ def dalete(user_id):
 
 
 @app_views.route("/users", strict_slashes=False, methods=["POST"])
-def post():
+def post_user():
     """create user"""
     data = request.get_json(force=True, silent=True)
     if data is None:
@@ -54,7 +54,7 @@ def post():
 
 
 @app_views.route("/users/<user_id>", methods=["PUT"], strict_slashes=False)
-def put(user_id):
+def put_user(user_id):
     """update user object"""
     data = request.get_json(force=True, silent=True)
     user = storage.get(User, user_id)
