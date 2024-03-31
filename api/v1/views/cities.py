@@ -55,7 +55,7 @@ def delete(city_id):
     methods=["POST"], strict_slashes=False)
 def post(state_id):
     """create a new city"""
-    data = request.get_json()
+    data = request.get_json(force=True, silent=True)
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
@@ -72,7 +72,7 @@ def post(state_id):
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
 def put(city_id):
     """update object"""
-    data = request.get_json()
+    data = request.get_json(force=True, silent=True)
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
