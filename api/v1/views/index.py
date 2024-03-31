@@ -6,7 +6,7 @@ from models import storage
 
 
 @app_views.route("/status", strict_slashes=False)
-def status():
+def attain_status():
     """/api/v1/status route"""
     return jsonify(status='OK')
 
