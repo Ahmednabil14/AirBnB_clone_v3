@@ -30,7 +30,7 @@ def amenities():
                  strict_slashes=False)
 def amenity(amenity_id):
     """amenity route"""
-    amenity = storage.get(Amenity, f'{amenity_id}')
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     if request.method == 'GET':
