@@ -30,7 +30,7 @@ def states():
                  strict_slashes=False)
 def state(state_id):
     """state route"""
-    state = storage.get(State, f'{state_id}')
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     if request.method == 'GET':
