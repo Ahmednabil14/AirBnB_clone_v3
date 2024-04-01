@@ -18,6 +18,7 @@ def place_amenities(place_id):
     else:
         amenities = [storage.get('Amenity', id)
                      for id in place.amenity_ids]
+    amenities = list(map(lambda x: x.to_dict(), amenities))
     return jsonify(amenities)
 
 
@@ -31,11 +32,11 @@ def place_amenity(place_id, amenity_id):
     if place is None or amenity is None:
         abort(404)
     if storage_t == 'db':
-        if amenity not in place.amenities:
-            abort(404)
         if request.method == 'DELETE':
+            if amenity not in place.amenities:
+                abort(404)
             storage.delete(amenity)
-            # del place.amenities[this amenity]
+            place.amenities.remove(amenity)
             storage.save()
             return jsonify({})
         else:  # POST
@@ -46,11 +47,11 @@ def place_amenity(place_id, amenity_id):
                 storage.save()
                 return jsonify(amenity.to_dict()), 201
     else:
-        if amenity.id not in place.amenity_ids:
-            abort(404)
         if request.method == 'DELETE':
+            if amenity.id not in place.amenity_ids:
+                abort(404)
             storage.delete(amenity)
-            # del place.amenity_ids[amenity.id]
+            place.amenity_ids.remove(amenity.id)
             storage.save()
             return jsonify({})
         else:  # POST
