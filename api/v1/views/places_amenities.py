@@ -10,7 +10,7 @@ from models import storage, storage_t
                  strict_slashes=False)
 def place_amenities(place_id):
     """place_amenities route"""
-    place = storage.get('Place', f'{place_id}')
+    place = storage.get('Place', place_id)
     if place is None:
         abort(404)
     if storage_t == 'db':
@@ -26,8 +26,8 @@ def place_amenities(place_id):
                  strict_slashes=False)
 def place_amenity(place_id, amenity_id):
     """place_amenity route"""
-    place = storage.get('Place', f'{place_id}')
-    amenity = storage.get('Amenity', f'{amenity_id}')
+    place = storage.get('Place', place_id)
+    amenity = storage.get('Amenity', amenity_id)
     if place is None or amenity is None:
         abort(404)
     if storage_t == 'db':
