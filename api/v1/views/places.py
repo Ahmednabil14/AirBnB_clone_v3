@@ -34,6 +34,7 @@ def places(city_id):
         if kwargs.get('name') is None:
             abort(400, "Missing name")
         place = Place(city_id=city_id, **kwargs)
+        storage.new(place)
         storage.save()
         return jsonify(place.to_dict()), 201
 
