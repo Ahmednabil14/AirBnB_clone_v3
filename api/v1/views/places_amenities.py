@@ -16,7 +16,7 @@ def place_amenities(place_id):
     if storage_t == 'db':
         amenities = place.amenities
     else:
-        amenities = [storage.get('Amenity', f'{id}')
+        amenities = [storage.get('Amenity', id)
                      for id in place.amenity_ids]
     return jsonify(amenities)
 
