@@ -43,7 +43,7 @@ def places(city_id):
                  strict_slashes=False)
 def place(place_id):
     """place route"""
-    place = storage.get(Place, f'{place_id}')
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     if request.method == 'GET':
