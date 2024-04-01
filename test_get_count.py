@@ -3,14 +3,12 @@
 """
 from models import storage
 from models.state import State
-from models.city import City
+from models.user import User
 
-city = City()
-cities = storage.all(City).values()
-for cit in cities:
-    print(cit.to_dict())
-# print("All objects: {}".format(storage.count()))
-# print("State objects: {}".format(storage.count(State)))
-first_state_id = list(storage.all(State).values())[0].id
-# print("First state: {}".format(storage.get(State, first_state_id)))
-# print(list(storage.all(State).values())[0].id)
+
+user1 = User(email="ahmed1@gmail.com", password="123", first_name="ahmed", last_name="ahmed")
+user2 = User(email="ahmed1@gmail.com", password="123", first_name="ahmed", last_name="ahmed")
+user3 = User(email="ahmed1@gmail.com", password="123", first_name="ahmed", last_name="ahmed")
+user4 = User(email="ahmed1@gmail.com", password="123", first_name="ahmed", last_name="ahmed")
+
+print(storage.all(User).values().id)

@@ -79,7 +79,7 @@ class DBStorage:
         """retrieves an object"""
         if isinstance(cls, str):
             cls = classes.get(cls)
-        return models.storage.all(cls).get(f'{cls.__name__}.{id}')
+        return models.storage.all(cls).get('{}.{}'.format(cls.__name__, id))
 
     def count(self, cls=None):
         """counts the number of objects in storage"""

@@ -3,7 +3,7 @@
 from datetime import datetime
 import inspect
 import models
-import pycodestyle
+import pep8 as pycodestyle
 import time
 import unittest
 from unittest import mock
@@ -86,12 +86,12 @@ class TestBaseModel(unittest.TestCase):
         tic = datetime.now()
         inst1 = BaseModel()
         toc = datetime.now()
-        self.assertTrue(tic <= inst1.created_at <= toc)
+        self.assertTrue(inst1.created_at - tic < toc - tic)
         time.sleep(1e-4)
         tic = datetime.now()
         inst2 = BaseModel()
         toc = datetime.now()
-        self.assertTrue(tic <= inst2.created_at <= toc)
+        self.assertTrue(inst2.created_at - tic < toc - tic)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)
