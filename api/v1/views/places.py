@@ -83,7 +83,8 @@ def places_search():
     amenity_ids = kwargs.get('amenities', [])
     for place in places:
         if storage_t == 'db':
-            if any(amenity not in place.amenities for amenity in amenity_ids):
+            if any(storage.get('Amenity', amenity) not in place.amenities
+                   for amenity in amenity_ids):
                 places.remove(place)
         else:
             if any(amenity not in place.amenity_ids
