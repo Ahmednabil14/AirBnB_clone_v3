@@ -86,7 +86,7 @@ def places_search():
             if any(amenity not in place.amenities for amenity in amenity_ids):
                 places.remove(place)
         else:
-            if any(amenity.id not in place.amenity_ids
+            if any(amenity not in place.amenity_ids
                    for amenity in amenity_ids):
                 places.remove(place)
     places = list(map(lambda x: x.to_dict(), places))
