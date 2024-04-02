@@ -2,7 +2,7 @@
 """ places """
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-from models import storage, storage_t
+from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
@@ -80,16 +80,9 @@ def places_search():
         places = []
         for city in cities:
             places += city.places
-    amenities = kwargs.get('amenities', [])
-    for place in places:
-        for amenity_id in amenities:
-            if storage_t == 'db':
-                if storage.get('Amenity', amenity_id) not in place.amenities:
-                    places.remove(place)
-                    break
-            else:
-                if amenity_id not in place.amenity_ids:
-                    places.remove(place)
-                    break
+    amenity_ids = kwargs.get('amenities', [])
+    amenities = [storage.get('Amenity', id) for id in amenity_ids]
+    places = [place for place in places
+              if all([am in place.amenities for am in amenities])]
     places = list(map(lambda x: x.to_dict(), places))
     return jsonify(places)
