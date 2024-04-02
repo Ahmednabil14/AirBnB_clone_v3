@@ -86,4 +86,6 @@ def places_search():
                for amenity in amenity_ids):
             places.remove(place)
     places = list(map(lambda x: x.to_dict(), places))
+    for place in places:
+        del place['amenities']
     return jsonify(places)
