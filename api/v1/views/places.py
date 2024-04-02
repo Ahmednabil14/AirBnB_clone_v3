@@ -68,9 +68,9 @@ def places_search():
     kwargs = request.get_json(force=True, silent=True)
     if kwargs is None:
         abort(400, "Not a JSON")
-    state_ids = kwargs.get('states') if kwargs.get('states') else []
-    city_ids = kwargs.get('cities') if kwargs.get('cities') else []
-    if len(state_ids) == 0 and len(city_ids) == 0:
+    state_ids = kwargs.get('states', [])
+    city_ids = kwargs.get('cities', [])
+    if state_ids == city_ids == []:
         places = storage.all('Place').values()
     else:
         cities = list(map(lambda id: storage.get(City, id), city_ids))
@@ -80,7 +80,7 @@ def places_search():
         places = []
         for city in cities:
             places += city.places
-    amenities = kwargs.get('amenities') if kwargs.get('amenities') else []
+    amenities = kwargs.get('amenities', [])
     for place in places:
         if storage_t == 'db':
             if any(amenity not in place.amenities for amenity in amenities):
