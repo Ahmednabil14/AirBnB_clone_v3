@@ -1,11 +1,8 @@
 #!/usr/bin/python3
-"""
-places
-"""
-
+""" places """
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-from models import storage
+from models import storage, storage_t
 from models.place import Place
 from models.city import City
 from models.user import User
@@ -63,3 +60,34 @@ def place(place_id):
                 setattr(place, key, kwargs.get(key))
         storage.save()
         return jsonify(place.to_dict())
+
+
+@app_views.route("/places_search", methods=['POST'], strict_slashes=False)
+def places_search():
+    """places_search route"""
+    kwargs = request.get_json(force=True, silent=True)
+    if kwargs is None:
+        abort(400, "Not a JSON")
+    state_ids = kwargs.get('states') if kwargs.get('states') else []
+    city_ids = kwargs.get('cities') if kwargs.get('cities') else []
+    if len(state_ids) == 0 and len(city_ids) == 0:
+        places = storage.all('Place').values()
+    else:
+        cities = list(map(lambda id: storage.get(City, id), city_ids))
+        for id in state_ids:
+            cities += storage.get('State', id).cities
+        cities = list(set(cities))
+        places = []
+        for city in cities:
+            places += city.places
+    amenities = kwargs.get('amenities') if kwargs.get('amenities') else []
+    for place in places:
+        if storage_t == 'db':
+            if any(amenity not in place.amenities for amenity in amenities):
+                places.remove(place)
+        else:
+            if any(amenity.id not in place.amenity_ids
+                   for amenity in amenities):
+                places.remove(place)
+    places = list(map(lambda x: x.to_dict(), places))
+    return jsonify(places)
