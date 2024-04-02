@@ -82,7 +82,8 @@ def places_search():
             places += city.places
     amenity_ids = kwargs.get('amenities', [])
     amenities = [storage.get('Amenity', id) for id in amenity_ids]
-    places = [place for place in places
-              if all([am in place.amenities for am in amenities])]
+    for place in places:
+        if any(amenity not in place.amenities for amenity in amenities):
+            places.remove(place)
     places = list(map(lambda x: x.to_dict(), places))
     return jsonify(places)
