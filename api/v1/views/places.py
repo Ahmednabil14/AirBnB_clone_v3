@@ -85,7 +85,6 @@ def places_search():
         if any(amenity not in place.amenities
                for amenity in amenity_ids):
             places.remove(place)
+            break
     places = list(map(lambda x: x.to_dict(), places))
-    for place in places:
-        del place['amenities']
     return jsonify(places)
