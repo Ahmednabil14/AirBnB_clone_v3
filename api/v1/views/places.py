@@ -71,7 +71,7 @@ def places_search():
     state_ids = kwargs.get('states', [])
     city_ids = kwargs.get('cities', [])
     if state_ids == city_ids == []:
-        places = storage.all('Place').values()
+        places = list(storage.all('Place').values())
     else:
         cities = list(map(lambda id: storage.get(City, id), city_ids))
         for id in state_ids:
