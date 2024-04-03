@@ -65,7 +65,7 @@ def place(place_id):
 @app_views.route("/places_search", methods=['POST'], strict_slashes=False)
 def places_search():
     """places_search route"""
-    kwargs = request.get_json(force=True, silent=True)
+    kwargs = request.get_json(silent=True, force=True)
     if kwargs is None:
         abort(400, "Not a JSON")
     state_ids = kwargs.get('states', [])
@@ -89,7 +89,11 @@ def places_search():
                    for amenity in amenities):
                 places_list.append(place)
         else:
-            if all(id in place.amenity_ids for id in amenity_ids):
+            if all(aid in place.amenity_ids for aid in amenity_ids):
                 places_list.append(place)
-    places = list(map(lambda x: x.to_dict(), places_list))
+    places = []
+    for place in places_list:
+        d = place.to_dict()
+        d.pop('amenities', None)
+        places.append(d)
     return jsonify(places)
